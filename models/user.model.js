@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var queryBuilder = require('../helpers/query-builder');
 
 mongoose.set('useCreateIndex', true);
 
@@ -12,6 +11,12 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    name: {
+        type: String
+    },
+    picture: {
+        type: String
+    },
     joinedSince: {
         type: Number,
         required: true
@@ -21,15 +26,14 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.statics = {
-    async create({username, email}) {
+    async create({username, email, name, picture}) {
         try {
-            let user = {
-                username,
-                email
-            };
+            let foundUser = await this.findOneAndUpdate({email}, {$set: {name, picture}}, {new: true});
 
-            const newUser = new this(user);
-            return await newUser.save();
+            if(foundUser) return foundUser;
+
+            foundUser = new this({username, email, name, picture, joinedSince: Date.now()})
+            return await foundUser.save();
         } catch(e) {
             return Promise.reject(e);
         }
@@ -39,6 +43,6 @@ userSchema.statics = {
 
 userSchema.index({ username: 1}, { unique: true });
 
-const UserAction = mongoose.model('UserAction', userSchema);
+const UserAction = mongoose.model('user', userSchema);
 
 module.exports = UserAction;

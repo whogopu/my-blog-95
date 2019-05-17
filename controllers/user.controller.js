@@ -1,23 +1,22 @@
 var request = require('request');
 var jwt = require('jsonwebtoken');
+var sid = require('shortid');
+var helperFunction = require('../helpers/helper.function')
 var Users = require('../models/user.model');
-
-const getGoogleUser = (accessToken) => {
-  return new Promise((resolve, reject) => {
-    request(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`, function(err, response, body) {
-      if(err) reject(err);
-      resolve(JSON.parse(body));
-    });
-  });
-};
 
 const signin = async (req, res, next) => {
   try {
-    let { accessToken } = req.boyd;
+    let { accessToken } = req.body;
 
-    // let userData = await getGoogleUser(accessToken);
-    console.log(accessToken);
-    res.json('done');
+    let userData = await helperFunction.getGoogleUser(accessToken);
+    if(!userData) return res.status(401).json(helperFunction.responseHandler(false, {message: 'Signin Error!!!'}))
+
+    let {email, picture, name} = userData;
+    let emailSlug = email.split('@')[0];
+    let username =`${emailSlug}-${sid.generate()}`
+
+    let signedInUser = await Users.create({email, username, picture, name})
+    res.json(helperFunction.responseHandler(true, {user: signedInUser}));
   } catch (error) {
     next(error)
   }

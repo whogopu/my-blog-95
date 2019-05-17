@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-import queryBuilder from '../helpers/query-builder';
 
 const postSchema = mongoose.Schema({
     title: {
@@ -42,6 +41,6 @@ postSchema.statics = {
 
 postSchema.index({ username: 1}, { unique: true });
 
-const UserAction = mongoose.model('UserAction', postSchema);
+const UserAction = mongoose.model('post', postSchema);
 
 export default UserAction;

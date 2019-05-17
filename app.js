@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
 var expressValidation = require('express-validation');
+var UnauthorizedError = require('express-jwt').UnauthorizedError;
+var JsonWebTokenError = require('jsonwebtoken').JsonWebTokenError;
 var APIError = require('./helpers/API-error');
 
 var app = express();
