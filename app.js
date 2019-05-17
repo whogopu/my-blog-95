@@ -5,10 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var configHolder = require('./config/config');
-
+var helperFunction = require('./helpers/helper.function')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
+var expressValidation = require('express-validation');
+var APIError = require('./helpers/API-error');
 
 var app = express();
 
@@ -42,15 +44,30 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use((err, req, res, next) => {
+  if (err instanceof expressValidation.ValidationError) {
+    // validation error contains errors which is an array of error each containing message[]
+    const unifiedErrorMessage = err.errors.map(error => error.messages.join('. ')).join(' and ');
+    const error = new APIError(unifiedErrorMessage, err.status);
+    return next(error);
+  } else if (err instanceof UnauthorizedError) {
+    const apiError = new APIError(err.message, 401);
+    return next(apiError);
+  } else if(err instanceof JsonWebTokenError) {
+    const apiError = new APIError(err.message, 401);
+    return next(apiError);
+  }
+  return next(err);
+});
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// error handler
+app.use((err, req, res, next) => {
+  if (err.status) {
+    return res.status(err.status).json(helperFunction.responseHandler(false, { message: err.message }));
+  } else {
+    console.log(err);
+    return res.status(500).json(helperFunction.responseHandler(false, { message: 'Something went wrong' }));
+  }
 });
 
 module.exports = app;
