@@ -1,4 +1,4 @@
-const env = 'dev';
+const env = 'prod';
 let config;
 
 if (env === 'dev') {
@@ -12,7 +12,7 @@ if (env === 'dev') {
 if (env === 'prod') {
   config = {
     mongodb: {
-      url: 'mongodb://localhost:27017/trackier'
+      url: 'mongodb+srv://trackier_user:trackier_user@trackier-uiz2v.mongodb.net/test?retryWrites=true'
     }
   };
 }
