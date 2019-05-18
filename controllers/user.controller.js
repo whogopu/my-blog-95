@@ -1,4 +1,3 @@
-var request = require('request');
 var jwt = require('jsonwebtoken');
 var sid = require('shortid');
 var helperFunction = require('../helpers/helper.function')
