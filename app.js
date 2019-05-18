@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var cors = require("cors");
 var configHolder = require('./config/config');
 var helperFunction = require('./helpers/helper.function')
 var indexRouter = require('./routes/index.route');
@@ -15,6 +16,7 @@ var JsonWebTokenError = require('jsonwebtoken').JsonWebTokenError;
 var APIError = require('./helpers/API-error');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
