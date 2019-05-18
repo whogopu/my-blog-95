@@ -62,8 +62,8 @@ class AddPost extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		post: state.postObject.post,
-		posts: state.postObject.posts
+		post: state.postReducer.post,
+		posts: state.postReducer.posts
 	};
 };
 

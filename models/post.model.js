@@ -50,7 +50,33 @@ postSchema.statics = {
                     publishDate: -1
                 }},
                 {$skip: skip},
-                {$limit: limit}
+                {$limit: limit},
+                {$lookup: {
+                    from: 'users',
+                    let: { username: '$createdBy' },
+                        pipeline: [
+                        { $match: {
+                            $expr:
+                                {
+                                    $and:
+                                    [
+                                        { $eq: ['$username', '$$username'] }
+                                    ]
+                                }
+                            }
+                        },
+                        { $project:  {
+                          name: 1,
+                          username: 1,
+                          picture: 1
+                        } }
+                    ],
+                    as: 'author'
+                }},
+                {$unwind: {
+                    path: '$author',
+                    preserveNullAndEmptyArrays: true
+                } }
             ]
             const foundPosts = await  this.aggregate(listPostsQuery)
             return foundPosts;

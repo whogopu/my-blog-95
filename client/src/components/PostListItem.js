@@ -14,6 +14,7 @@ class PostListItem extends Component {
 		return (
 			<div className="card my-4">
 				<h3 className="card-header">{this.props.title}</h3>
+				<p className="ml-2">by {this.props.author.name}</p>
 				<div className="card-body">
 					<p className="card-text">{this.props.body}</p>
 					<div className="btn-group" role="group" aria-label="Basic example">
