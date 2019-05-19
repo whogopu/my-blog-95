@@ -8,5 +8,6 @@ export {
   asyncFetchAllPosts,
   asyncFetchSinglePost,
   asyncCreatePost,
-  asyncUpdatePost
+  asyncUpdatePost,
+  asyncDeletePost
 } from "./asyncActions/post.async.action";

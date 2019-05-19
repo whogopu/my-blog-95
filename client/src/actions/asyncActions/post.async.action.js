@@ -4,7 +4,8 @@ import {
 	FETCH_ALL_POSTS_API,
 	FETCH_SINGLE_POST_API,
 	CREATE_POST_API,
-	UPDATE_POST_API
+	UPDATE_POST_API,
+	DELETE_POST_API
 } from "../../constants/api";
 
 import axios from "axios";
@@ -114,6 +115,34 @@ export const asyncUpdatePost = (id, data) => dispatch => {
 				? err.response.data.data.message
 				: "Error while updating the post";
 			dispatch(postAction.updatePostError({ errMsg }));
+			reject(errMsg)
+		}
+	})
+}
+
+export const asyncDeletePost = (id) => dispatch => {
+	return new Promise(async (resolve, reject) => {
+		dispatch(postAction.deletePost());
+		try {
+			const res = await axios.delete(DELETE_POST_API(id));
+
+			if (res.status === 200 && res.data && res.data.success) {
+
+				dispatch(postAction.deletePostSuccess(id));
+				resolve(id)
+			} else {
+				const errMsg = res.data
+					? res.data.data.message
+					: "Error while deleting the post";
+				dispatch(postAction.deletePostError({ errMsg }));
+				reject(errMsg)
+			}
+		} catch (err) {
+			console.log("err", JSON.stringify(err));
+			const errMsg = err.response
+				? err.response.data.data.message
+				: "Error while deleting the post";
+			dispatch(postAction.deletePostError({ errMsg }));
 			reject(errMsg)
 		}
 	})

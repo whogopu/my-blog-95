@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { truncate } from 'lodash';
 
-import { asyncFetchAllPosts } from "../actions";
+import { asyncDeletePost } from "../actions";
 
 class PostListItem extends Component {
 	onClickRemoveHandler = (event) => {
-		this.props.deletePost(this.props._id);
+		this.props.asyncDeletePost(this.props._id);
 	};
 
 	render() {
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		deletePost: (_id) => dispatch(asyncFetchAllPosts(_id))
+		asyncDeletePost: (_id) => dispatch(asyncDeletePost(_id))
 	};
 };
 

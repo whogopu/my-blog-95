@@ -15,3 +15,7 @@ export const CREATE_POST_API = (data) => {
 export const UPDATE_POST_API = (id) => {
   return `${API_URL}/posts/${id}`;
 };
+
+export const DELETE_POST_API = (id) => {
+  return `${API_URL}/posts/${id}`;
+};

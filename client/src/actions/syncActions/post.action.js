@@ -10,7 +10,10 @@ import {
   CREATE_POST_ERROR,
   UPDATE_POST,
   UPDATE_POST_SUCCESS,
-  UPDATE_POST_ERROR
+  UPDATE_POST_ERROR,
+  DELETE_POST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR
 } from "../../constants";
 
 const fetchAllPosts = () => ({ type: FETCH_ALL_POSTS });
@@ -69,6 +72,20 @@ const updatePostError = errMsg => ({
   payload: { msg: errMsg }
 });
 
+const deletePost = () => ({ type: DELETE_POST });
+
+const deletePostSuccess = id => ({
+  type: DELETE_POST_SUCCESS,
+  payload: {
+    id
+  }
+});
+
+const deletePostError = errMsg => ({
+  type: DELETE_POST_ERROR,
+  payload: { msg: errMsg }
+});
+
 export default {
   fetchAllPosts,
   fetchAllPostsSuccess,
@@ -81,5 +98,8 @@ export default {
   createPostError,
   updatePost,
   updatePostSuccess,
-  updatePostError
+  updatePostError,
+  deletePost,
+  deletePostSuccess,
+  deletePostError
 };

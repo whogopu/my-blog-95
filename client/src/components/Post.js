@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { asyncFetchSinglePost } from '../actions'
+import { asyncFetchSinglePost, asyncDeletePost } from '../actions'
 
 class Post extends Component {
 	state = {};
@@ -12,7 +12,7 @@ class Post extends Component {
 	}
 
 	onClickRemoveHandler = (event) => {
-		this.props.deletePost(this.props.post._id);
+		this.props.asyncDeletePost(this.props.post._id);
 		this.setState({ redirect: true });
 	};
 
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		asyncFetchSinglePost: (_id) => dispatch(asyncFetchSinglePost(_id)),
-		deletePost: (_id) => dispatch(asyncFetchSinglePost(_id))
+		asyncDeletePost: (_id) => dispatch(asyncDeletePost(_id))
 	};
 };
 
