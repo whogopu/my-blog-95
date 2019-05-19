@@ -4,16 +4,7 @@ import { Redirect } from "react-router-dom";
 import { asyncFetchAllPosts } from "../actions";
 
 class AddPost extends Component {
-	state = { title: "", body: "", redirect: false, redirectTo: null };
-
-	componentDidMount(){
-		if(!this.props.authUser.username){
-			this.setState({
-				redirect: true,
-				redirectTo: this.props.match.url
-			})
-		}
-	}
+	state = { title: "", body: "", redirect: false };
 
 	onFormSubmit = (event) => {
 		event.preventDefault();
@@ -24,11 +15,7 @@ class AddPost extends Component {
 	};
 
 	render() {
-		let {redirect, redirectTo} = this.state;
-
-		if ( redirect && redirectTo){
-			return <Redirect to={`/login?redirect=${redirectTo}`} />;
-		}
+		let {redirect} = this.state;
 
 		if (redirect) {
 			return <Redirect to={`/posts/${this.state._id}`} />;

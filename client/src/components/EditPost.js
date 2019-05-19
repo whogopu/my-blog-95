@@ -8,21 +8,12 @@ class EditPost extends Component {
 		title: "",
 		body: "",
 		_id: "",
-		redirect: false,
-		redirectTo: null
+		redirect: false
 	};
 
 	componentDidMount() {
-		console.log('path2', this.props.match)
-		if(!this.props.authUser.username){
-			this.setState({
-				redirect: true,
-				redirectTo: this.props.match.url
-			})
-		} else {
-			const _id = this.props.match.params.id;
-			this.props.asyncFetchSinglePost(_id);
-		}
+		const _id = this.props.match.params.id;
+		this.props.asyncFetchSinglePost(_id);
 
 	}
 
@@ -39,18 +30,13 @@ class EditPost extends Component {
 
 		const updatedData = { post: { ...this.state } };
 		this.props.updatePost(updatedData).then((response) => {
-			console.log(response.message);
 			this.setState({ redirect: true });
 		});
 	};
 
 	render() {
 
-		let {redirect, redirectTo} = this.state;
-
-		if ( redirect && redirectTo){
-			return <Redirect to={`/login?redirect=${redirectTo}`} />;
-		}
+		let {redirect} = this.state;
 
 		if (redirect) {
 			return <Redirect to={`/posts/${this.state._id}`} />;

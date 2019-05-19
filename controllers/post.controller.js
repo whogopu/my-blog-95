@@ -17,7 +17,7 @@ const list = async (req, res, next) => {
 const get = async (req, res, next) => {
   try {
     let { id } = req.params;
-    let foundPost = await Posts.findOne({ _id: id });
+    let foundPost = await Posts.getOne({ _id: id });
 
     res.json(helperFunction.responseHandler(true, { post: foundPost }));
   } catch (error) {

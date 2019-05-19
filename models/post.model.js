@@ -83,6 +83,43 @@ postSchema.statics = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    async getOne({ _id }) {
+        try {
+            const getPostQuery = [
+                {$match: {_id}},
+                {$lookup: {
+                    from: 'users',
+                    let: { username: '$createdBy' },
+                        pipeline: [
+                        { $match: {
+                            $expr:
+                                {
+                                    $and:
+                                    [
+                                        { $eq: ['$username', '$$username'] }
+                                    ]
+                                }
+                            }
+                        },
+                        { $project:  {
+                          name: 1,
+                          username: 1,
+                          picture: 1
+                        } }
+                    ],
+                    as: 'author'
+                }},
+                {$unwind: {
+                    path: '$author',
+                    preserveNullAndEmptyArrays: true
+                } }
+            ]
+            const foundPost = await  this.aggregate(getPostQuery)
+            return foundPost[0];
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 
 };
