@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Rodal from 'rodal';
 import { connect } from "react-redux";
 import PostListItem from "./PostListItem";
 import { asyncFetchAllPosts } from '../actions';
