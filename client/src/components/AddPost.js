@@ -22,39 +22,43 @@ class AddPost extends Component {
 		}
 
 		return (
-			<div className="card my-4 mt-5">
-				<h3 className="card-header">Add New Post</h3>
-				<div className="card-body">
-					<form onSubmit={this.onFormSubmit}>
-						<div className="form-group">
-							<label htmlFor="title">Title</label>
-							<input
-								type="text"
-								id="title"
-								className="form-control"
-								placeholder="Enter Title"
-								value={this.state.title}
-								onChange={(e) => this.setState({ title: e.target.value })}
-							/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="body">Body</label>
-							<textarea
-								rows="5"
-								type="text"
-								id="body"
-								className="form-control"
-								placeholder="Enter Body"
-								value={this.state.body}
-								onChange={(e) => this.setState({ body: e.target.value })}
-							/>
-						</div>
+			<div className="container">
+				<div className="card my-4 mt-5 shadow-sm">
+						<h3 className="card-header text-center">ADD NEW POST</h3>
+						<div className="card-body">
+							<form onSubmit={this.onFormSubmit}>
+								<div className="form-group">
+									<label htmlFor="title">Title</label>
+									<input
+										type="text"
+										id="title"
+										className="form-control"
+										placeholder="Enter Title"
+										value={this.state.title}
+										onChange={(e) => this.setState({ title: e.target.value })}
+									/>
+								</div>
+								<div className="form-group">
+									<label htmlFor="body">Body</label>
+									<textarea
+										rows="5"
+										type="text"
+										id="body"
+										className="form-control"
+										placeholder="Enter Body"
+										value={this.state.body}
+										onChange={(e) => this.setState({ body: e.target.value })}
+									/>
+								</div>
 
-						<button type="submit" className="btn btn-primary">
-							Submit
-						</button>
-					</form>
-				</div>
+								<div className="float-right">
+									<button type="submit" className="btn btn-primary">
+										Submit
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
 			</div>
 		);
 	}
