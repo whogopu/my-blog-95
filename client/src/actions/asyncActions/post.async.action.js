@@ -41,7 +41,6 @@ export const asyncFetchSinglePost = id => dispatch => {
 			const res = await axios.get(FETCH_SINGLE_POST_API(id));
 
 			if (res.status === 200 && res.data && res.data.success) {
-				console.log('data', res.data.data)
 				dispatch(postAction.fetchSinglePostSuccess(res.data.data));
 				resolve(res.data.data)
 			} else {

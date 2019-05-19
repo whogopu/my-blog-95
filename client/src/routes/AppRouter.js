@@ -16,7 +16,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-			console.log('hello', props )
       let token = localStorage.getItem("token");
       let decoded = jwt.decode(token);
       if (token && decoded) {

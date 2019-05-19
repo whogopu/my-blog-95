@@ -24,7 +24,7 @@ class Post extends Component {
 			return <Redirect to="/posts" />;
 		}
 
-		let {title, body, author={}, publishDate} = this.props.post
+		let {title, body, author={}, publishDate, _id} = this.props.post
 		console.log('post2',this.props.post )
 
 		return (
@@ -45,7 +45,7 @@ class Post extends Component {
 										<button className="btn btn-outline-danger mr-2" onClick={this.onClickRemoveHandler}>
 											Delete
 										</button>
-										<Link className="btn btn-outline-primary" to={`/edit/${this.props._id}`}>
+										<Link className="btn btn-outline-primary" to={`/edit/${_id}`}>
 												Edit
 										</Link>
 									</div>

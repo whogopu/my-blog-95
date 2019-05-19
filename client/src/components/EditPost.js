@@ -13,16 +13,17 @@ class EditPost extends Component {
 
 	componentDidMount() {
 		const _id = this.props.match.params.id;
-		this.props.asyncFetchSinglePost(_id);
+		this.props.asyncFetchSinglePost(_id)
+		.then(data => {
+			if(data.post){
+				this.setState({
+					title: data.post.title,
+					body: data.post.body,
+					_id: data.post._id
+				})
+			}
+		})
 
-	}
-
-	static getDerivedStateFromProps(props, state) {
-		if (props.post._id !== state._id) {
-			return props.post;
-		} else {
-			return null;
-		}
 	}
 
 	onFormSubmit = (event) => {
