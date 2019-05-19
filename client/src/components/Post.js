@@ -22,6 +22,8 @@ class Post extends Component {
 			return <Redirect to="/posts" />;
 		}
 
+		if(!this.props.post) return null;
+
 		let {title, body, author={}, publishDate, _id} = this.props.post
 		console.log('post2',this.props.post )
 

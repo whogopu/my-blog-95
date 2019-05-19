@@ -2,7 +2,8 @@ import { postAction } from "..";
 
 import {
 	FETCH_ALL_POSTS_API,
-	FETCH_SINGLE_POST_API
+	FETCH_SINGLE_POST_API,
+	CREATE_POST_API
 } from "../../constants/api";
 
 import axios from "axios";
@@ -56,6 +57,35 @@ export const asyncFetchSinglePost = id => dispatch => {
 				? err.response.data.data.message
 				: "Error while fetching the post";
 			dispatch(postAction.fetchSinglePostError({ errMsg }));
+			reject(errMsg)
+		}
+	})
+}
+
+export const asyncCreatePost = data => dispatch => {
+	return new Promise(async (resolve, reject) => {
+		dispatch(postAction.createPost());
+		try {
+			const res = await axios.post(CREATE_POST_API(), data);
+
+			if (res.status === 200 && res.data && res.data.success) {
+				console.log('data8', res.data.data)
+
+				dispatch(postAction.createPostSuccess(res.data.data));
+				resolve(res.data.data)
+			} else {
+				const errMsg = res.data
+					? res.data.data.message
+					: "Error while creating the post2";
+				dispatch(postAction.createPostError({ errMsg }));
+				reject(errMsg)
+			}
+		} catch (err) {
+			console.log("err", JSON.stringify(err));
+			const errMsg = err.response
+				? err.response.data.data.message
+				: "Error while creating the post1";
+			dispatch(postAction.createPostError({ errMsg }));
 			reject(errMsg)
 		}
 	})

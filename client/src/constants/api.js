@@ -7,3 +7,7 @@ export const FETCH_ALL_POSTS_API = (skip, limit) => {
 export const FETCH_SINGLE_POST_API = (id) => {
   return `${API_URL}/posts/${id}`;
 };
+
+export const CREATE_POST_API = (data) => {
+  return `${API_URL}/posts`;
+};

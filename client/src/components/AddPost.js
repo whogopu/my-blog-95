@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { asyncFetchAllPosts } from "../actions";
+import { asyncCreatePost } from "../actions";
 
 class AddPost extends Component {
 	state = { title: "", body: "", redirect: false };
 
 	onFormSubmit = (event) => {
 		event.preventDefault();
-		const postData = { post: { ...this.state } };
-		this.props.addPost(postData).then((response) => {
-			this.setState({ redirect: true, _id: response._id });
+		let { title, body } = this.state
+		const postData =  { title, body };
+		this.props.asyncCreatePost(postData).then((response) => {
+			this.setState({ redirect: true, _id: response.post._id });
 		});
 	};
 
 	render() {
-		let {redirect} = this.state;
+		let {redirect, title, body} = this.state;
 
 		if (redirect) {
 			return <Redirect to={`/posts/${this.state._id}`} />;
@@ -52,7 +53,7 @@ class AddPost extends Component {
 								</div>
 
 								<div className="float-right">
-									<button type="submit" className="btn btn-primary">
+									<button type="submit" className="btn btn-primary" onClick={this.onFormSubmit} disabled={!(title && body)}>
 										Submit
 									</button>
 								</div>
@@ -74,7 +75,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addPost: (postData) => dispatch(asyncFetchAllPosts(postData))
+		asyncCreatePost: (data) => dispatch(asyncCreatePost(data))
 	};
 };
 

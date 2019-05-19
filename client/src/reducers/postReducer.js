@@ -6,7 +6,10 @@ import {
 	FETCH_ALL_POSTS_ERROR,
 	FETCH_SINGLE_POST,
 	FETCH_SINGLE_POST_SUCCESS,
-	FETCH_SINGLE_POST_ERROR
+	FETCH_SINGLE_POST_ERROR,
+	CREATE_POST,
+	CREATE_POST_SUCCESS,
+	CREATE_POST_ERROR
 } from "../constants";
 
 const initialState = {
@@ -30,10 +33,22 @@ const fetchSingleFeedSuccess = (state, action) =>{
   });
 }
 
+const createPostSuccess = (state, action) =>{
+	return update(state, {
+    post: {
+      $set: action.payload.post
+		},
+		posts: {
+			$unshift: [action.payload.post]
+		}
+  });
+}
+
 export const postReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case FETCH_ALL_POSTS_SUCCESS: return fetchAllFeedSuccess(state, action)
 		case FETCH_SINGLE_POST_SUCCESS: return fetchSingleFeedSuccess(state, action)
+		case CREATE_POST_SUCCESS: return createPostSuccess(state, action)
 		case "CHANGE_SELECTED_POST":
 			return {
 				post: action.post,
