@@ -10,10 +10,11 @@ class AddPost extends Component {
 		if(!this.props.authUser.username){
 			this.setState({
 				redirect: true,
-				redirectTo: this.props.match.path
+				redirectTo: this.props.match.url
 			})
 		}
 	}
+
 	onFormSubmit = (event) => {
 		event.preventDefault();
 		const postData = { post: { ...this.state } };

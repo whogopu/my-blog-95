@@ -1,20 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
-// import { updatePost, changeSelectedPost } from "../actions/postActions";
-import { asyncFetchAllPosts } from "../actions";
+import { asyncFetchSinglePost } from "../actions";
 
 class EditPost extends Component {
 	state = {
 		title: "",
 		body: "",
-		_id: ""
+		_id: "",
+		redirect: false,
+		redirectTo: null
 	};
 
 	componentDidMount() {
-		const _id = this.props.match.params.id;
-		this.props.changeSelectedPost(_id);
+		console.log('path2', this.props.match)
+		if(!this.props.authUser.username){
+			this.setState({
+				redirect: true,
+				redirectTo: this.props.match.url
+			})
+		} else {
+			const _id = this.props.match.params.id;
+			this.props.asyncFetchSinglePost(_id);
+		}
+
 	}
 
 	static getDerivedStateFromProps(props, state) {
@@ -36,7 +45,14 @@ class EditPost extends Component {
 	};
 
 	render() {
-		if (this.state.redirect) {
+
+		let {redirect, redirectTo} = this.state;
+
+		if ( redirect && redirectTo){
+			return <Redirect to={`/login?redirect=${redirectTo}`} />;
+		}
+
+		if (redirect) {
 			return <Redirect to={`/posts/${this.state._id}`} />;
 		}
 
@@ -81,15 +97,16 @@ class EditPost extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		post: state.postObject.post,
-		posts: state.postObject.posts
+		post: state.postReducer.post,
+		posts: state.postReducer.posts,
+		authUser: state.authReducer.user
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		changeSelectedPost: (_id) => dispatch(asyncFetchAllPosts(_id)),
-		updatePost: (updatedData) => dispatch(asyncFetchAllPosts(updatedData))
+		asyncFetchSinglePost: (_id) => dispatch(asyncFetchSinglePost(_id)),
+		updatePost: (updatedData) => dispatch(asyncFetchSinglePost(updatedData))
 	};
 };
 
