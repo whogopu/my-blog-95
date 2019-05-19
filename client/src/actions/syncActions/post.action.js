@@ -1,22 +1,15 @@
 import {
-	FETCH_ALL_POSTS,
 	FETCH_ALL_POSTS_SUCCESS,
   FETCH_ALL_POSTS_ERROR,
-  FETCH_SINGLE_POST,
   FETCH_SINGLE_POST_SUCCESS,
   FETCH_SINGLE_POST_ERROR,
-  CREATE_POST,
   CREATE_POST_SUCCESS,
   CREATE_POST_ERROR,
-  UPDATE_POST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_ERROR,
-  DELETE_POST,
   DELETE_POST_SUCCESS,
   DELETE_POST_ERROR
 } from "../../constants";
-
-const fetchAllPosts = () => ({ type: FETCH_ALL_POSTS });
 
 const fetchAllPostsSuccess = data => ({
   type: FETCH_ALL_POSTS_SUCCESS,
@@ -30,8 +23,6 @@ const fetchAllPostsError = errMsg => ({
   payload: { msg: errMsg }
 });
 
-const fetchSinglePost = () => ({ type: FETCH_SINGLE_POST });
-
 const fetchSinglePostSuccess = data => ({
   type: FETCH_SINGLE_POST_SUCCESS,
   payload: {
@@ -43,8 +34,6 @@ const fetchSinglePostError = errMsg => ({
   type: FETCH_SINGLE_POST_ERROR,
   payload: { msg: errMsg }
 });
-
-const createPost = () => ({ type: CREATE_POST });
 
 const createPostSuccess = data => ({
   type: CREATE_POST_SUCCESS,
@@ -58,8 +47,6 @@ const createPostError = errMsg => ({
   payload: { msg: errMsg }
 });
 
-const updatePost = () => ({ type: UPDATE_POST });
-
 const updatePostSuccess = data => ({
   type: UPDATE_POST_SUCCESS,
   payload: {
@@ -71,8 +58,6 @@ const updatePostError = errMsg => ({
   type: UPDATE_POST_ERROR,
   payload: { msg: errMsg }
 });
-
-const deletePost = () => ({ type: DELETE_POST });
 
 const deletePostSuccess = id => ({
   type: DELETE_POST_SUCCESS,
@@ -87,19 +72,14 @@ const deletePostError = errMsg => ({
 });
 
 export default {
-  fetchAllPosts,
   fetchAllPostsSuccess,
   fetchAllPostsError,
-  fetchSinglePost,
   fetchSinglePostSuccess,
   fetchSinglePostError,
-  createPost,
   createPostSuccess,
   createPostError,
-  updatePost,
   updatePostSuccess,
   updatePostError,
-  deletePost,
   deletePostSuccess,
   deletePostError
 };

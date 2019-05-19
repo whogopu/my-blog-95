@@ -18,7 +18,7 @@ class EditPost extends Component {
 		this.props.asyncFetchSinglePost(_id)
 		.then(data => {
 			if(data.post){
-				if(data.post.author.username == this.props.authUser.username) {
+				if(data.post.author.username === this.props.authUser.username) {
 					this.setState({
 						title: data.post.title,
 						body: data.post.body,

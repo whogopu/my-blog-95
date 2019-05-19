@@ -2,21 +2,11 @@ import update from "immutability-helper";
 import {findIndex} from 'lodash';
 
 import {
-	FETCH_ALL_POSTS,
 	FETCH_ALL_POSTS_SUCCESS,
-	FETCH_ALL_POSTS_ERROR,
-	FETCH_SINGLE_POST,
 	FETCH_SINGLE_POST_SUCCESS,
-	FETCH_SINGLE_POST_ERROR,
-	CREATE_POST,
 	CREATE_POST_SUCCESS,
-	CREATE_POST_ERROR,
-	UPDATE_POST,
 	UPDATE_POST_SUCCESS,
-	UPDATE_POST_ERROR,
-	DELETE_POST,
 	DELETE_POST_SUCCESS,
-	DELETE_POST_ERROR
 } from "../constants";
 
 const initialState = {
@@ -93,25 +83,6 @@ export const postReducer = (state = initialState, action) => {
 		case CREATE_POST_SUCCESS: return createPostSuccess(state, action)
 		case UPDATE_POST_SUCCESS: return updatePostSuccess(state, action)
 		case DELETE_POST_SUCCESS: return deletePostSuccess(state, action)
-		case "CHANGE_SELECTED_POST":
-			return {
-				post: action.post,
-				posts: state.posts
-			};
-		case "UPDATE_POST":
-			return {
-				post: { ...state.post, ...action.post },
-				posts: state.posts.map((post) => {
-					if (post._id === action._id) return { ...post, ...action.post };
-					else return post;
-				})
-			};
-		case "DELETE_POST":
-			return {
-				post: {},
-				posts: state.posts.filter((post) => post._id !== action._id)
-			};
-		default:
-			return state;
+		default: return state;
 	}
 }

@@ -12,7 +12,6 @@ import axios from "axios";
 
 export const asyncFetchAllPosts = (skip=0, limit=10) => dispatch => {
   return new Promise(async (resolve, reject) => {
-		dispatch(postAction.fetchAllPosts());
 		try {
 			const res = await axios.get(FETCH_ALL_POSTS_API(skip, limit));
 
@@ -39,7 +38,6 @@ export const asyncFetchAllPosts = (skip=0, limit=10) => dispatch => {
 
 export const asyncFetchSinglePost = id => dispatch => {
 	return new Promise(async (resolve, reject) => {
-		dispatch(postAction.fetchSinglePost());
 		try {
 			const res = await axios.get(FETCH_SINGLE_POST_API(id));
 
@@ -66,7 +64,6 @@ export const asyncFetchSinglePost = id => dispatch => {
 
 export const asyncCreatePost = data => dispatch => {
 	return new Promise(async (resolve, reject) => {
-		dispatch(postAction.createPost());
 		try {
 			const res = await axios.post(CREATE_POST_API(), data);
 
@@ -94,7 +91,6 @@ export const asyncCreatePost = data => dispatch => {
 
 export const asyncUpdatePost = (id, data) => dispatch => {
 	return new Promise(async (resolve, reject) => {
-		dispatch(postAction.updatePost());
 		try {
 			const res = await axios.put(UPDATE_POST_API(id), data);
 
@@ -122,7 +118,6 @@ export const asyncUpdatePost = (id, data) => dispatch => {
 
 export const asyncDeletePost = (id) => dispatch => {
 	return new Promise(async (resolve, reject) => {
-		dispatch(postAction.deletePost());
 		try {
 			const res = await axios.delete(DELETE_POST_API(id));
 
