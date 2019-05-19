@@ -5,5 +5,6 @@ export { _postAction as postAction };
 export { _authAction as authAction };
 
 export {
-  asyncFetchAllPosts
+  asyncFetchAllPosts,
+  asyncFetchSinglePost
 } from "./asyncActions/post.async.action";

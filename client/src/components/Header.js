@@ -3,6 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import jwt from "jsonwebtoken";
 import { connect } from "react-redux";
 import { authAction } from '../actions';
+import setAuthToken from "../config/setAuthToken";
 
 class Header extends React.Component {
 
@@ -10,6 +11,7 @@ class Header extends React.Component {
 		let token = localStorage.getItem("token");
 		let decoded = jwt.decode(token);
 		if(decoded){
+			setAuthToken(token);
 			this.props.userLoggedIn(decoded.author)
 		}
 	}

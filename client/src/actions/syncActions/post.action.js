@@ -1,7 +1,10 @@
 import {
 	FETCH_ALL_POSTS,
 	FETCH_ALL_POSTS_SUCCESS,
-	FETCH_ALL_POSTS_ERROR
+  FETCH_ALL_POSTS_ERROR,
+  FETCH_SINGLE_POST,
+  FETCH_SINGLE_POST_SUCCESS,
+  FETCH_SINGLE_POST_ERROR
 } from "../../constants";
 
 const fetchAllPosts = () => ({ type: FETCH_ALL_POSTS });
@@ -18,8 +21,25 @@ const fetchAllPostsError = errMsg => ({
   payload: { msg: errMsg }
 });
 
+const fetchSinglePost = () => ({ type: FETCH_SINGLE_POST });
+
+const fetchSinglePostSuccess = data => ({
+  type: FETCH_SINGLE_POST_SUCCESS,
+  payload: {
+    post: data.post
+  }
+});
+
+const fetchSinglePostError = errMsg => ({
+  type: FETCH_SINGLE_POST_ERROR,
+  payload: { msg: errMsg }
+});
+
 export default {
   fetchAllPosts,
   fetchAllPostsSuccess,
-  fetchAllPostsError
+  fetchAllPostsError,
+  fetchSinglePost,
+  fetchSinglePostSuccess,
+  fetchSinglePostError
 };
