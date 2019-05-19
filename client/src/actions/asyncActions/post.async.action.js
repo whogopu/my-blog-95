@@ -3,7 +3,8 @@ import { postAction } from "..";
 import {
 	FETCH_ALL_POSTS_API,
 	FETCH_SINGLE_POST_API,
-	CREATE_POST_API
+	CREATE_POST_API,
+	UPDATE_POST_API
 } from "../../constants/api";
 
 import axios from "axios";
@@ -69,14 +70,13 @@ export const asyncCreatePost = data => dispatch => {
 			const res = await axios.post(CREATE_POST_API(), data);
 
 			if (res.status === 200 && res.data && res.data.success) {
-				console.log('data8', res.data.data)
 
 				dispatch(postAction.createPostSuccess(res.data.data));
 				resolve(res.data.data)
 			} else {
 				const errMsg = res.data
 					? res.data.data.message
-					: "Error while creating the post2";
+					: "Error while creating the post";
 				dispatch(postAction.createPostError({ errMsg }));
 				reject(errMsg)
 			}
@@ -84,8 +84,36 @@ export const asyncCreatePost = data => dispatch => {
 			console.log("err", JSON.stringify(err));
 			const errMsg = err.response
 				? err.response.data.data.message
-				: "Error while creating the post1";
+				: "Error while creating the post";
 			dispatch(postAction.createPostError({ errMsg }));
+			reject(errMsg)
+		}
+	})
+}
+
+export const asyncUpdatePost = (id, data) => dispatch => {
+	return new Promise(async (resolve, reject) => {
+		dispatch(postAction.updatePost());
+		try {
+			const res = await axios.put(UPDATE_POST_API(id), data);
+
+			if (res.status === 200 && res.data && res.data.success) {
+
+				dispatch(postAction.updatePostSuccess(res.data.data));
+				resolve(res.data.data)
+			} else {
+				const errMsg = res.data
+					? res.data.data.message
+					: "Error while updating the post";
+				dispatch(postAction.updatePostError({ errMsg }));
+				reject(errMsg)
+			}
+		} catch (err) {
+			console.log("err", JSON.stringify(err));
+			const errMsg = err.response
+				? err.response.data.data.message
+				: "Error while updating the post";
+			dispatch(postAction.updatePostError({ errMsg }));
 			reject(errMsg)
 		}
 	})

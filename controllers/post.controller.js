@@ -53,7 +53,7 @@ const update = async (req, res, next) => {
 
     if(foundPost.createdBy !== user.author.username) return res.status(401).json(helperFunction.responseHandler(false, {message: 'Not Authorized'}));
 
-    let updatedPost = await Posts.findOneAndUpdate({_id: id}, {$set: {title, body}}, {new: true})
+    let updatedPost = await Posts.findOneAndUpdate({_id: id}, {$set: {title, body}}, {new: true, useFindAndModify: false})
 
     res.json(helperFunction.responseHandler(true, {post: updatedPost}));
 

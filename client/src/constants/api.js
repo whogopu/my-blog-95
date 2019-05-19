@@ -11,3 +11,7 @@ export const FETCH_SINGLE_POST_API = (id) => {
 export const CREATE_POST_API = (data) => {
   return `${API_URL}/posts`;
 };
+
+export const UPDATE_POST_API = (id) => {
+  return `${API_URL}/posts/${id}`;
+};

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { asyncFetchSinglePost } from "../actions";
+import { asyncFetchSinglePost, asyncUpdatePost } from "../actions";
 
 class EditPost extends Component {
 	state = {
@@ -28,9 +28,9 @@ class EditPost extends Component {
 
 	onFormSubmit = (event) => {
 		event.preventDefault();
-
-		const updatedData = { post: { ...this.state } };
-		this.props.updatePost(updatedData).then((response) => {
+		let { title, body, _id } = this.state;
+		const updatedData = { title, body };
+		this.props.asyncUpdatePost(_id, updatedData).then((response) => {
 			this.setState({ redirect: true });
 		});
 	};
@@ -97,7 +97,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		asyncFetchSinglePost: (_id) => dispatch(asyncFetchSinglePost(_id)),
-		updatePost: (updatedData) => dispatch(asyncFetchSinglePost(updatedData))
+		asyncUpdatePost: (id, updatedData) => dispatch(asyncUpdatePost(id, updatedData))
 	};
 };
 

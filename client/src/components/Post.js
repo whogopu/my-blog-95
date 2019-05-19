@@ -25,7 +25,6 @@ class Post extends Component {
 		if(!this.props.post) return null;
 
 		let {title, body, author={}, publishDate, _id} = this.props.post
-		console.log('post2',this.props.post )
 
 		return (
 			<div className="container">
@@ -61,7 +60,6 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state.postReducer)
 	return {
 		post: state.postReducer.post,
 		posts: state.postReducer.posts,
