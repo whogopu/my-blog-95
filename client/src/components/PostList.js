@@ -3,8 +3,6 @@ import Rodal from 'rodal';
 import { connect } from "react-redux";
 import PostListItem from "./PostListItem";
 import { asyncFetchAllPosts } from '../actions';
-import { LoginModal } from './LoginModal';
-import 'rodal/lib/rodal.css';
 
 class PostList extends Component {
 

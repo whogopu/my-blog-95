@@ -1,23 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
 import { asyncFetchAllPosts } from "../actions";
 
 class AddPost extends Component {
-	state = { title: "", body: "" };
+	state = { title: "", body: "", redirect: false, redirectTo: null };
 
+	componentDidMount(){
+		if(!this.props.authUser.username){
+			this.setState({
+				redirect: true,
+				redirectTo: this.props.match.path
+			})
+		}
+	}
 	onFormSubmit = (event) => {
 		event.preventDefault();
 		const postData = { post: { ...this.state } };
 		this.props.addPost(postData).then((response) => {
-			console.log(response.message);
 			this.setState({ redirect: true, _id: response._id });
 		});
 	};
 
 	render() {
-		if (this.state.redirect) {
+		let {redirect, redirectTo} = this.state;
+
+		if ( redirect && redirectTo){
+			return <Redirect to={`/login?redirect=${redirectTo}`} />;
+		}
+
+		if (redirect) {
 			return <Redirect to={`/posts/${this.state._id}`} />;
 		}
 
@@ -63,7 +75,8 @@ class AddPost extends Component {
 const mapStateToProps = (state) => {
 	return {
 		post: state.postReducer.post,
-		posts: state.postReducer.posts
+		posts: state.postReducer.posts,
+		authUser: state.authReducer.user
 	};
 };
 

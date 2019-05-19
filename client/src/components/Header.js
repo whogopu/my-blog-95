@@ -1,28 +1,23 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import LoginModal from './LoginModal';
 import jwt from "jsonwebtoken";
+import { connect } from "react-redux";
+import { authAction } from '../actions';
 
 class Header extends React.Component {
 
-	constructor (props) {
-		super(props);
-		this.state = {
-			showLoginModal: false
+	componentDidMount(){
+		let token = localStorage.getItem("token");
+		let decoded = jwt.decode(token);
+		if(decoded){
+			this.props.userLoggedIn(decoded.author)
 		}
 	}
 
-	goToNewPost = () => {
-		let token = localStorage.getItem("token");
-		let decoded = jwt.decode(token);
-
-		if(decoded) {
-			if (this.props.location.pathname !== '/add')
-				this.props.history.push({ pathname: '/add' });
-		}	else {
-			this.setState({showLoginModal: true})
-		}
-
+	logout = () => {
+		localStorage.removeItem('token')
+		this.props.history.replace({ pathname: '/' });
+		this.props.userLoggedOut()
 	}
 
 	render() {
@@ -35,24 +30,48 @@ class Header extends React.Component {
 
 					<div className="collapse navbar-collapse">
 						<ul className="navbar-nav ml-auto">
+							{this.props.authUser.username && (<li className="nav-item mr-3" ><p>{ this.props.authUser.name}</p></li>)}
 							<li className="nav-item mr-3">
-								<button type="button" className="btn btn-outline-primary" onClick={this.goToNewPost}>New Post</button>
-							</li>
-							<li className="nav-item">
-								<NavLink
-									to="/add"
-								>
-									<button type="button" className="btn btn-outline-primary">Login</button>
+								<NavLink to="/add">
+									<button type="button" className="btn btn-outline-primary" >New Post</button>
 								</NavLink>
-
 							</li>
+							{this.props.authUser.username
+							? (
+								<li className="nav-item">
+									<button type="button" className="btn btn-outline-primary" onClick={this.logout}>Logout</button>
+								</li>
+							)
+							: (
+								<li className="nav-item">
+									<NavLink to="/login">
+										<button type="button" className="btn btn-outline-primary">Login</button>
+									</NavLink>
+								</li>
+							)
+							 }
 						</ul>
 					</div>
 				</div>
-				<LoginModal visible={this.state.showLoginModal} hideModal={()=> this.setState({showLoginModal: false})} />
 			</header>
 		);
 	}
 }
 
-export default withRouter(Header);
+const mapStateToProps = (state) => {
+	return {
+		authUser: state.authReducer.user
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		userLoggedIn: (authUser) => dispatch(authAction.userLoggedIn(authUser)),
+		userLoggedOut: () => dispatch(authAction.userLoggedOut())
+	};
+};
+
+export default withRouter(connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Header));

@@ -14,3 +14,6 @@ if (apiUrl === "dev") {
 export const FETCH_ALL_POSTS = "FETCH_ALL_POSTS";
 export const FETCH_ALL_POSTS_SUCCESS = "FETCH_ALL_POSTS_SUCCESS";
 export const FETCH_ALL_POSTS_ERROR = "FETCH_ALL_POSTS_ERROR";
+
+export const USER_LOGIN = "USER_LOGIN";
+export const USER_LOGOUT = "USER_LOGOUT";
