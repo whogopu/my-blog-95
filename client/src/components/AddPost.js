@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { asyncCreatePost } from "../actions";
+import { ToastContainer, toast } from 'react-toastify';
 
 class AddPost extends Component {
 	state = { title: "", body: "", redirect: false };
@@ -10,10 +11,17 @@ class AddPost extends Component {
 		event.preventDefault();
 		let { title, body } = this.state
 		const postData =  { title, body };
-		this.props.asyncCreatePost(postData).then((response) => {
+		this.props.asyncCreatePost(postData)
+		.then((response) => {
 			this.setState({ redirect: true, _id: response.post._id });
-		});
+		})
+		.catch(err => {
+			this.notifyErr(err)
+		})
 	};
+
+	notifyInfo = (msg) => toast.info(msg);
+	notifyErr = (msg) => toast.error(msg);
 
 	render() {
 		let {redirect, title, body} = this.state;
@@ -60,6 +68,7 @@ class AddPost extends Component {
 							</form>
 						</div>
 					</div>
+				<ToastContainer draggable={false} position={toast.POSITION.BOTTOM_RIGHT} />
 			</div>
 		);
 	}
