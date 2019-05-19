@@ -16,11 +16,19 @@ class EditPost extends Component {
 		this.props.asyncFetchSinglePost(_id)
 		.then(data => {
 			if(data.post){
-				this.setState({
-					title: data.post.title,
-					body: data.post.body,
-					_id: data.post._id
-				})
+				if(data.post.author.username == this.props.authUser.username) {
+					this.setState({
+						title: data.post.title,
+						body: data.post.body,
+						_id: data.post._id
+					})
+				} else {
+					this.setState({
+						redirect: true,
+						_id: data.post._id
+					})
+				}
+
 			}
 		})
 
