@@ -24,30 +24,30 @@ class Header extends React.Component {
 
 	render() {
 		return (
-			<header className="navbar navbar-expand-lg fixed-top navbar-light bg-light ">
+			<header className="navbar navbar-expand-lg fixed-top navbar-light" style={{"background-color": "#4592af"}}>
 				<div className="container">
-					<NavLink to="/" className="navbar-brand">
+					<NavLink to="/" className="navbar-brand text-white font-weight-bold">
 						My Blog
 					</NavLink>
 
 					<div className="collapse navbar-collapse">
 						<ul className="navbar-nav ml-auto">
-							{this.props.authUser.username && (<li className="nav-item mr-3" ><p>{ this.props.authUser.name}</p></li>)}
+							{this.props.authUser.username && (<li className="nav-item mr-3 text-white" ><p style={{"line-height": "6px", "margin": "16px 0"}}>{ this.props.authUser.name}</p></li>)}
 							<li className="nav-item mr-3">
 								<NavLink to="/add">
-									<button type="button" className="btn btn-outline-primary" >New Post</button>
+									<button type="button" className="btn btn-outline-light" >New Post</button>
 								</NavLink>
 							</li>
 							{this.props.authUser.username
 							? (
 								<li className="nav-item">
-									<button type="button" className="btn btn-outline-primary" onClick={this.logout}>Logout</button>
+									<button type="button" className="btn btn-outline-light" onClick={this.logout}>Logout</button>
 								</li>
 							)
 							: (
 								<li className="nav-item">
 									<NavLink to="/login">
-										<button type="button" className="btn btn-outline-primary">Login</button>
+										<button type="button" className="btn btn-outline-light">Login</button>
 									</NavLink>
 								</li>
 							)
