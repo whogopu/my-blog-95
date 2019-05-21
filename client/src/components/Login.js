@@ -93,7 +93,7 @@ class Login extends Component {
                     alt="Google &quot;G&quot; Logo"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
                   />
-                  Google Login
+                  Log in with Google
                 </button>
               </div>
             </div>
