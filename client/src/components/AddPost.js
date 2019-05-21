@@ -61,7 +61,7 @@ class AddPost extends Component {
 										maxLength='1000'
 										onChange={(e) => this.setState({ body: e.target.value })}
 									/>
-									<small>{`${this.state.title.body ? this.state.title.body.length : 0 }/1000`}</small>
+									<small>{`${this.state.body ? this.state.body.length : 0 }/1000`}</small>
 								</div>
 
 								<div className="float-right">
