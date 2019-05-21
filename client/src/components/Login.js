@@ -72,14 +72,33 @@ class Login extends Component {
 
 		return (
 			<div>
-				<div style={{ textAlign: "center" }}>
+				<div className="container mt-5">
+          <div className="row justify-content-md-center">
+
+            <div className="col-sm-4 " style={{backgroundColor: "#6fc2d0"}}>
+              <img src="graphic2.svg" alt="Login" />
+            </div>
+            <div className="col-sm-4" style={{backgroundColor:"#4592af"}}>
+              <div style={{ textAlign: "center", paddingTop: "120px" }}>
+                <p className="text-white font-weight-bold">Sign in to get personalized blogs.</p>
                 <button
-                  className="btn btn-solid-info"
+                  className="btn btn-light"
                   onClick={() => this.Firebase("google")}
                 >
-                  Login With Google
+                  <img
+                    width="20px"
+                    style={{
+                      marginRight: "10px"
+                    }}
+                    alt="Google &quot;G&quot; Logo"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+                  />
+                  Google Login
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
 				<ToastContainer draggable={false} position={toast.POSITION.BOTTOM_RIGHT} />
 
 			</div>
