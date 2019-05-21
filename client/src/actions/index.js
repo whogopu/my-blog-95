@@ -11,3 +11,7 @@ export {
   asyncUpdatePost,
   asyncDeletePost
 } from "./asyncActions/post.async.action";
+
+export {
+  asyncLogin
+} from './asyncActions/auth.async.action'

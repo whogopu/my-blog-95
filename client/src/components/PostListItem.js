@@ -13,12 +13,12 @@ class PostListItem extends Component {
 		})
 	};
 
-
 	render() {
 		let {title, body, _id, publishDate, author={}, authUser} = this.props;
 
 		title = truncate(title, {'length': 70})
 		body = truncate(body, {'length': 150})
+
 		return (
 			<div className="card mb-3 shadow-sm" style={{"width": "48rem"}}>
 				<div className="card-body">

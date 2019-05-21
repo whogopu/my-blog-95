@@ -19,3 +19,7 @@ export const UPDATE_POST_API = (id) => {
 export const DELETE_POST_API = (id) => {
   return `${API_URL}/posts/${id}`;
 };
+
+export const SIGNIN_API = (id) => {
+  return `${API_URL}/users/signin`;
+};

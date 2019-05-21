@@ -1,31 +1,67 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {Redirect} from 'react-router-dom'
-import { authAction } from '../actions';
+import { authAction, asyncLogin } from '../actions';
+import firebase from "firebase";
+import { auth, googleProvider } from "../utils/firebase";
 import jwt from "jsonwebtoken";
+import { ToastContainer, toast } from 'react-toastify';
 
 class Login extends Component {
 
 	state = { redirectToReferrer: false };
 
-	login = (token) => {
-		localStorage.setItem('token', token);
-		let decoded = jwt.decode(token);
-		if(decoded){
-			this.props.userLoggedIn(decoded.author)
-			this.setState({ redirectToReferrer: true });
-		}
+	componentDidMount(){
+		this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      let token = localStorage.getItem("token");
+      let decoded = jwt.decode(token);
+      let isTokenValid = token && decoded ;
+
+       if (!user && isTokenValid) {
+        localStorage.removeItem('token')
+        firebase.auth().signOut();
+        this.props.history.replace({ pathname: '/' });
+        this.props.userLoggedOut()
+      }
+    });
+  }
+
+  notifyInfo = (msg) => toast.info(msg);
+	notifyErr = (msg) => toast.error(msg);
+
+	componentWillUnmount() {
+    this.unregisterAuthObserver();
 	}
 
-	login1 = () => {
-		let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3IiOnsiZW1haWwiOiJnb3BhbEBzby5jaXR5IiwidXNlcm5hbWUiOiJnb3BhbC0zOTZFblI3QlgiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDQuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy15Q0tld2VhN2p5dy9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BQ0hpM3JkYUJjUHcxQTQyOHQ0Ml81dHYteTEzNjhKalF3L21vL3Bob3RvLmpwZyIsIm5hbWUiOiJHb3BhbCBTaGFybWEifSwiaWF0IjoxNTU4MTE0OTc2fQ.yr9nx_SaE_fTyExQY0tn9VqhQCt2kHXFbGQa0IH1TLg";
-		this.login(token)
-	}
+	googleLogin = responseData => {
+    if (responseData) {
+      let accessToken = responseData.credential.accessToken;
+      this.props.asyncLogin({ accessToken })
+      .then(response => {
+        this.setState({ redirectToReferrer: true });
+      })
+      .catch(err => {
+        this.notifyErr(err)
+      })
+    }
+  };
 
-	login2 = () => {
-		let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3IiOnsiZW1haWwiOiJnb3BhbEBzby5jaXR5IiwidXNlcm5hbWUiOiJnb3BhbC0zOTZFblI3QlgxIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8teUNLZXdlYTdqeXcvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUNIaTNyZGFCY1B3MUE0Mjh0NDJfNXR2LXkxMzY4SmpRdy9tby9waG90by5qcGciLCJuYW1lIjoiR29wYWwgU2hhcm1hMSJ9LCJpYXQiOjE1NTgxMTQ5NzZ9.TDDsdE4mPdBGXvWjwlm2xmnTsOkFTyVg1ctbH_q2-jA";
-		this.login(token)
-	}
+	Firebase = mode => {
+    let provider;
+    if (mode === "google") {
+      provider = googleProvider;
+    }
+    auth()
+      .signInWithPopup(provider)
+      .then(result => {
+        if (mode === "google") {
+          this.googleLogin(result); //state
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
 	render() {
 
@@ -36,8 +72,16 @@ class Login extends Component {
 
 		return (
 			<div>
-				<button type="button" className="btn btn-outline-primary" onClick={this.login1}>Login1</button>
-				<button type="button" className="btn btn-outline-primary" onClick={this.login2}>Login2</button>
+				<div style={{ textAlign: "center" }}>
+                <button
+                  className="btn btn-solid-info"
+                  onClick={() => this.Firebase("google")}
+                >
+                  Login With Google
+                </button>
+              </div>
+				<ToastContainer draggable={false} position={toast.POSITION.BOTTOM_RIGHT} />
+
 			</div>
 
 		)
@@ -52,7 +96,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		userLoggedIn: (authUser) => dispatch(authAction.userLoggedIn(authUser))
+		userLoggedIn: (authUser) => dispatch(authAction.userLoggedIn(authUser)),
+		asyncLogin: (accessToken) => dispatch(asyncLogin(accessToken)),
 	};
 };
 

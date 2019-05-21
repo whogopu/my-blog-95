@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { connect } from "react-redux";
 import { authAction } from '../actions';
 import setAuthToken from "../config/setAuthToken";
+import firebase from "firebase";
 
 class Header extends React.Component {
 
@@ -18,6 +19,7 @@ class Header extends React.Component {
 
 	logout = () => {
 		localStorage.removeItem('token')
+		firebase.auth().signOut();
 		this.props.history.replace({ pathname: '/' });
 		this.props.userLoggedOut()
 	}
