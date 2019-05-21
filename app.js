@@ -41,8 +41,8 @@ db.on("error", (error) => console.log(error));
 db.once("open", () => console.log("MongoDB Connected..."));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/posts', postsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/posts', postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
