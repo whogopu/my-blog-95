@@ -48,7 +48,7 @@ app.use('/api/posts', postsRouter);
 // app.use(function(req, res, next) {
 //   next(createError(404));
 // });
-app.get('*', (req, res, next) => res.sendFile('index.html'))
+app.get('*', (req, res, next) => res.sendFile(path.join(__dirname, 'client/build/index.html')));
 
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
