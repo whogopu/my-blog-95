@@ -44,8 +44,10 @@ class AddPost extends Component {
 										className="form-control"
 										placeholder="Enter Title"
 										value={this.state.title}
+										maxLength='100'
 										onChange={(e) => this.setState({ title: e.target.value })}
 									/>
+									<small>{`${this.state.title ? this.state.title.length : 0}/100`}</small>
 								</div>
 								<div className="form-group">
 									<label htmlFor="body">Body</label>
@@ -56,8 +58,10 @@ class AddPost extends Component {
 										className="form-control"
 										placeholder="Enter Body"
 										value={this.state.body}
+										maxLength='1000'
 										onChange={(e) => this.setState({ body: e.target.value })}
 									/>
+									<small>{`${this.state.title.body ? this.state.title.body.length : 0 }/1000`}</small>
 								</div>
 
 								<div className="float-right">
