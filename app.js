@@ -45,9 +45,10 @@ app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+app.get('*', (req, res, next) => res.sendFile('index.html'))
 
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
@@ -75,6 +76,5 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.get('*', (req, res, next) => res.sendFile('index.html'))
 
 module.exports = app;
