@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Mongoose Middleware
 mongoose.connect(
@@ -73,5 +74,7 @@ app.use((err, req, res, next) => {
     return res.status(500).json(helperFunction.responseHandler(false, { message: 'Something went wrong' }));
   }
 });
+
+app.get('*', (req, res, next) => res.sendFile('index.html'))
 
 module.exports = app;
