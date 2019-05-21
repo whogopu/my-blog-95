@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production")
   apiUrl = process.env.REACT_APP_ENV === "prod" ? "prod" : "dev";
 
 if (apiUrl === "prod") {
-  API_URL = "https://my-blog-95.herokuapp.com/";
+  API_URL = "https://my-blog-95.herokuapp.com";
 }
 if (apiUrl === "dev") {
   API_URL = "http://localhost:3000";
