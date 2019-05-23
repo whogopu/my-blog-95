@@ -42,7 +42,7 @@ class Post extends Component {
 						isError
 						? (<p className="p-3">Cannot Load Post</p>)
 						: (
-							_id === this.props.match.params._id
+							_id === this.props.match.params.id
 							? (
 								<div className="card-body">
 									<h5 className="card-title font-weight-bold" style={{ textDecoration: 'none', color: "rgba(0,0,0,0.84)" }}>{title}</h5>
@@ -68,7 +68,7 @@ class Post extends Component {
 									}
 								</div>
 							)
-							: (<div/>)
+							: (<div className="p-5 text-center">Loading...</div>)
 						)
 					}
 				</div>

@@ -1,4 +1,4 @@
-let apiUrl = "prod";
+let apiUrl = "dev";
 export let API_URL;
 
 if (process.env.NODE_ENV !== "production")
