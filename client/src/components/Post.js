@@ -41,29 +41,35 @@ class Post extends Component {
 					{
 						isError
 						? (<p className="p-3">Cannot Load Post</p>)
-						: (<div className="card-body">
-						<h5 className="card-title font-weight-bold" style={{ textDecoration: 'none', color: "rgba(0,0,0,0.84)" }}>{title}</h5>
-					<span className="card-subtitle mb-2 text-muted">{new Date(publishDate).toLocaleDateString()}</span>
-					<span className="m-1">&#183;</span>
-					<span className="card-subtitle mb-2 text-muted">{author.name}</span>
-					<br/>
-					<br/>
-					<p className="card-text">{body}</p>
+						: (
+							_id === this.props.match.params._id
+							? (
+								<div className="card-body">
+									<h5 className="card-title font-weight-bold" style={{ textDecoration: 'none', color: "rgba(0,0,0,0.84)" }}>{title}</h5>
+									<span className="card-subtitle mb-2 text-muted">{new Date(publishDate).toLocaleDateString()}</span>
+									<span className="m-1">&#183;</span>
+									<span className="card-subtitle mb-2 text-muted">{author.name}</span>
+									<br/>
+									<br/>
+									<p className="card-text">{body}</p>
 
-					{this.props.authUser.username === author.username
-						? (
-								<div className="float-right" role="group" aria-label="Basic example">
-									<button className="btn btn-outline-danger mr-2" onClick={this.onClickRemoveHandler}>
-										Delete
-									</button>
-									<Link className="btn btn-outline-primary" to={`/edit/${_id}`}>
-											Edit
-									</Link>
+									{this.props.authUser.username === author.username
+										? (
+												<div className="float-right" role="group" aria-label="Basic example">
+													<button className="btn btn-outline-danger mr-2" onClick={this.onClickRemoveHandler}>
+														Delete
+													</button>
+													<Link className="btn btn-outline-primary" to={`/edit/${_id}`}>
+															Edit
+													</Link>
+												</div>
+										)
+										: null
+									}
 								</div>
+							)
+							: (<div/>)
 						)
-						: null
-					}
-				</div>)
 					}
 				</div>
 				<ToastContainer draggable={false} position={toast.POSITION.BOTTOM_RIGHT} />
