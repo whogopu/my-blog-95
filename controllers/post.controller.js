@@ -18,7 +18,7 @@ const get = async (req, res, next) => {
   try {
     let { id } = req.params;
     let foundPost = await Posts.getOne({ _id: id });
-
+    if(!foundPost) return res.status(404).json(helperFunction.responseHandler(false, { message: 'Post not found'}))
     res.json(helperFunction.responseHandler(true, { post: foundPost }));
   } catch (error) {
     next(error)
